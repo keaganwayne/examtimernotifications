@@ -1,53 +1,83 @@
-# Classroom Aid Admin Layer
+# Classroom Aid Live Admin Version
 
-This adds a live admin editor to the classroom exam display.
+This version adds a live admin editor and removes the 60-second page refresh.
 
-## Files
+## Main URLs
 
-```text
-admin.html
-package.json
-netlify.toml
-netlify/functions/config.js
-index_patch.js
-```
-
-## What this does
-
-Your current `index.html` has notifications locked inside the HTML. This layer moves those editable values into a small live config endpoint:
+Classroom / TV display:
 
 ```text
-/api/config
+/
 ```
 
-The admin page edits that config here:
+Admin editor:
 
 ```text
 /admin.html
 ```
 
-The classroom display polls `/api/config` every 5 seconds, so the TVs update without redeploying the site.
-
-## Install
-
-Copy these files into the root of your GitHub repository:
+Live config API:
 
 ```text
+/api/config
+```
+
+## What changed
+
+The classroom page no longer refreshes every 60 seconds.
+
+Instead, it polls `/api/config` in the background every 5 seconds. Because the page is not reloading, fullscreen mode stays active.
+
+The admin page can change:
+
+- subject
+- exam title
+- displayed exam time
+- timer duration
+- number of notifications
+- notification message
+- notification label
+- notification type
+- notification icon
+- note colour
+- default note width
+- default note height
+- default note font size
+
+## Files
+
+```text
+index.html
 admin.html
 package.json
 netlify.toml
 netlify/functions/config.js
 ```
 
-Then paste the logic from:
+## GitHub / Netlify Setup
+
+Replace your existing `index.html` with the included `index.html`.
+
+Add the other files to the root of your GitHub repository.
+
+Your repo should look like this:
 
 ```text
-index_patch.js
+your-repo/
+├── index.html
+├── admin.html
+├── package.json
+├── netlify.toml
+└── netlify/
+    └── functions/
+        └── config.js
 ```
 
-inside your current `index.html` main script, just before the final closing `})();`. Do not paste it after the closing script tag if you are using the v3 file, because the timer/config variables live inside that script closure.
+Commit and push.
 
-## Netlify environment variable
+Netlify will redeploy.
+
+## Required Netlify Environment Variable
 
 In Netlify, add this environment variable:
 
@@ -61,36 +91,34 @@ Example value:
 31415
 ```
 
-Then redeploy.
+Then redeploy the site.
 
-## URLs
+The admin page is visible at `/admin.html`, but saving changes requires this password.
 
-Classroom display:
+## Fullscreen Fix
 
-```text
-https://your-site.netlify.app/
-```
+The old version refreshed the page every 60 seconds. Browser fullscreen mode exits whenever a page reloads.
 
-Admin editor:
+This version does not reload the page.
 
-```text
-https://your-site.netlify.app/admin.html
-```
+It uses background `fetch()` polling instead, so fullscreen stays on.
 
-## Admin editor can change
+## Timer Behavior
 
-- subject
-- exam title
-- displayed exam time
-- timer duration
-- number of notifications
-- notification labels
-- notification messages
-- sticky note colours
-- default note width
-- default note height
-- default font size
+The timer is still teacher-controlled:
 
-## Security note
+- Start
+- Stop
+- Reset
 
-The admin page URL is public if someone knows it, but saving requires the server-side password stored as `ADMIN_PASSWORD` in Netlify. For a classroom display this is usually enough. For stronger control, add Netlify Identity or Supabase Auth later.
+The timer does not wait for 8:00 AM.
+
+Timer state is saved in the browser using `localStorage`, so live notification updates do not reset the timer.
+
+## Sticky Notes
+
+Sticky notes can still be resized on the display page.
+
+Each note also has `A−` and `A+` controls for local font-size adjustment.
+
+Admin changes set the default note size and font size. Local classroom display adjustments are stored per browser.

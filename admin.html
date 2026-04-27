@@ -7,31 +7,9 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700;900&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --page-bg: #d9d7d7;
-    --ink: #101010;
-    --sticky-yellow: #eceb91;
-    --sticky-sky: #a9d5ff;
-    --sticky-peach: #ffd2c7;
-    --sticky-mint: #bcefd8;
-    --sticky-lilac: #d9cbff;
-    --sticky-cream: #fff6cf;
-  }
-  * { box-sizing: border-box; }
-  body { background: var(--page-bg); color: var(--ink); font-family: Lexend, system-ui, sans-serif; }
-  .border-heavy { border: 2px solid #000; }
-  .panel { background: #f6f4f4; border: 2px solid #000; box-shadow: 5px 5px 0 #000; }
-  .field-label { display:block; font-size:11px; font-weight:900; text-transform:uppercase; margin-bottom:6px; letter-spacing:.08em; }
-  .field-input { width:100%; border:2px solid #000; background:white; padding:10px; font-weight:800; }
-  textarea.field-input { min-height:92px; resize:vertical; }
-  .btn { border:2px solid #000; box-shadow:4px 4px 0 #000; font-weight:900; text-transform:uppercase; padding:11px 14px; letter-spacing:.06em; }
-  .btn:active { transform:translate(2px,2px); box-shadow:0 0 0 #000; }
-  .btn-green { background:var(--sticky-mint); }
-  .btn-blue { background:var(--sticky-sky); }
-  .btn-red { background:var(--sticky-peach); }
-  .btn-yellow { background:var(--sticky-yellow); }
-  .note-editor { background:var(--sticky-cream); border:2px solid #000; box-shadow:4px 4px 0 #000; }
-  .top-title { font-weight:900; letter-spacing:-.07em; }
+  :root{--page-bg:#d9d7d7;--ink:#101010;--sticky-yellow:#eceb91;--sticky-sky:#a9d5ff;--sticky-peach:#ffd2c7;--sticky-mint:#bcefd8;--sticky-lilac:#d9cbff;--sticky-cream:#fff6cf}
+  *{box-sizing:border-box} body{background:var(--page-bg);color:var(--ink);font-family:Lexend,system-ui,sans-serif}
+  .panel{background:#f6f4f4;border:2px solid #000;box-shadow:5px 5px 0 #000}.field-label{display:block;font-size:11px;font-weight:900;text-transform:uppercase;margin-bottom:6px;letter-spacing:.08em}.field-input{width:100%;border:2px solid #000;background:white;padding:10px;font-weight:800}textarea.field-input{min-height:92px;resize:vertical}.btn{border:2px solid #000;box-shadow:4px 4px 0 #000;font-weight:900;text-transform:uppercase;padding:11px 14px;letter-spacing:.06em}.btn:active{transform:translate(2px,2px);box-shadow:0 0 0 #000}.btn-green{background:var(--sticky-mint)}.btn-blue{background:var(--sticky-sky)}.btn-red{background:var(--sticky-peach)}.btn-yellow{background:var(--sticky-yellow)}.note-editor{background:var(--sticky-cream);border:2px solid #000;box-shadow:4px 4px 0 #000}.top-title{font-weight:900;letter-spacing:-.07em}
 </style>
 </head>
 <body>
@@ -44,10 +22,7 @@
   <section class="panel p-5 mb-6">
     <h2 class="font-black uppercase text-xl mb-4">Admin Access</h2>
     <div class="grid grid-cols-1 md:grid-cols-[1fr_auto_auto] gap-4 items-end">
-      <div>
-        <label class="field-label">Admin Password</label>
-        <input id="passwordInput" class="field-input" type="password" placeholder="Password set in Netlify environment variable" />
-      </div>
+      <div><label class="field-label">Admin Password</label><input id="passwordInput" class="field-input" type="password" placeholder="Password set in Netlify environment variable" /></div>
       <button id="loadBtn" class="btn btn-blue">Load</button>
       <button id="saveBtn" class="btn btn-green">Save Live</button>
     </div>
@@ -57,26 +32,11 @@
   <section class="panel p-5 mb-6">
     <h2 class="font-black uppercase text-xl mb-4">Exam Details</h2>
     <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
-      <div>
-        <label class="field-label">Subject</label>
-        <input id="subjectInput" class="field-input" type="text" />
-      </div>
-      <div>
-        <label class="field-label">Exam Title</label>
-        <input id="titleInput" class="field-input" type="text" />
-      </div>
-      <div>
-        <label class="field-label">Exam Time Text</label>
-        <input id="examTimeInput" class="field-input" type="text" />
-      </div>
-      <div>
-        <label class="field-label">Hours</label>
-        <input id="hoursInput" class="field-input" type="number" min="0" max="12" />
-      </div>
-      <div>
-        <label class="field-label">Minutes</label>
-        <input id="minutesInput" class="field-input" type="number" min="0" max="59" />
-      </div>
+      <div><label class="field-label">Subject</label><input id="subjectInput" class="field-input" type="text" /></div>
+      <div><label class="field-label">Exam Title</label><input id="titleInput" class="field-input" type="text" /></div>
+      <div><label class="field-label">Exam Time Text</label><input id="examTimeInput" class="field-input" type="text" /></div>
+      <div><label class="field-label">Hours</label><input id="hoursInput" class="field-input" type="number" min="0" max="12" /></div>
+      <div><label class="field-label">Minutes</label><input id="minutesInput" class="field-input" type="number" min="0" max="59" /></div>
     </div>
   </section>
 
@@ -90,240 +50,50 @@
 
   <section class="panel p-5">
     <h2 class="font-black uppercase text-xl mb-4">Colour Options</h2>
-    <p class="font-mono text-sm leading-7">
-      sticky-note-sky · sticky-note-peach · sticky-note-mint · sticky-note-yellow · sticky-note-lilac · sticky-note-cream
-    </p>
+    <p class="font-mono text-sm leading-7">sticky-note-sky · sticky-note-peach · sticky-note-mint · sticky-note-yellow · sticky-note-lilac · sticky-note-cream</p>
   </section>
 </main>
 
 <script>
 const API_URL = "/api/config";
-
 const FALLBACK_CONFIG = {
-  subject: "Pre-Algebra",
-  title: "2nd Semester Mid-Terms",
-  examTimeText: "8:00 → 9:00",
-  durationHours: 1,
-  durationMinutes: 0,
-  livePollSeconds: 5,
-  timerStorageKey: "classroom-aid-live-timer-v1",
-  notesStorageKey: "classroom-aid-live-sticky-layout-v1",
-  stickyGap: 24,
-  noteMinWidth: 260,
-  noteMaxWidth: 560,
-  noteMinHeight: 140,
-  noteMaxHeight: 420,
-  notes: []
+  subject:"Pre-Algebra", title:"2nd Semester Mid-Terms", examTimeText:"8:00 → 9:00", durationHours:1, durationMinutes:0,
+  livePollSeconds:5, timerStorageKey:"classroom-aid-live-timer-v1", notesStorageKey:"classroom-aid-live-sticky-layout-v1",
+  stickyGap:24, noteMinWidth:260, noteMaxWidth:560, noteMinHeight:140, noteMaxHeight:420,
+  notes:[
+    {id:"q22-slope",label:"QUESTION 22",type:"Correction",text:"Q22 → slope is 2",icon:"trending_up",colourClass:"sticky-note-sky",width:420,height:190,fontSize:46},
+    {id:"q36-number-change",label:"QUESTION 36",type:"Correction",text:"Q36 → 22 changes to 60",icon:"edit_note",colourClass:"sticky-note-peach",width:420,height:190,fontSize:40},
+    {id:"q36-choice-format",label:"QUESTION 36",type:"Format",text:"Q36 is multiple choice A, B, C, D — not E, F, G, H",icon:"format_list_bulleted",colourClass:"sticky-note-mint",width:420,height:210,fontSize:34}
+  ]
 };
-
 let config = structuredClone(FALLBACK_CONFIG);
-
-function h(value) {
-  return String(value ?? "")
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
-}
-
-function numberValue(id, fallback) {
-  const parsed = Number(document.getElementById(id).value);
-  return Number.isFinite(parsed) ? parsed : fallback;
-}
-
-function getPassword() {
-  return document.getElementById("passwordInput").value || sessionStorage.getItem("classroomAidAdminPassword") || "";
-}
-
-function setStatus(message) {
-  document.getElementById("statusLine").textContent = message;
-}
-
-function normalizeNote(note, index) {
-  return {
-    id: String(note.id || `note-${Date.now()}-${index}`),
-    label: String(note.label || `NOTE ${index + 1}`),
-    type: String(note.type || "Notice"),
-    text: String(note.text || ""),
-    icon: String(note.icon || "campaign"),
-    colourClass: String(note.colourClass || "sticky-note-sky"),
-    width: Number(note.width || 420),
-    height: Number(note.height || 190),
-    fontSize: Number(note.fontSize || 40)
-  };
-}
-
-function normalizeConfig(raw) {
-  const merged = { ...FALLBACK_CONFIG, ...(raw || {}) };
-  merged.notes = Array.isArray(merged.notes) ? merged.notes.map(normalizeNote) : [];
-  return merged;
-}
-
-function renderConfig() {
-  document.getElementById("subjectInput").value = config.subject || "";
-  document.getElementById("titleInput").value = config.title || "";
-  document.getElementById("examTimeInput").value = config.examTimeText || "";
-  document.getElementById("hoursInput").value = config.durationHours ?? 1;
-  document.getElementById("minutesInput").value = config.durationMinutes ?? 0;
-  renderNotes();
-}
-
-function renderNotes() {
-  const notesList = document.getElementById("notesList");
-  notesList.innerHTML = "";
-
-  config.notes.forEach((note, index) => {
-    const noteCard = document.createElement("article");
-    noteCard.className = "note-editor p-4";
-    noteCard.dataset.index = index;
-
-    noteCard.innerHTML = `
-      <div class="flex justify-between gap-4 mb-4">
-        <h3 class="font-black uppercase text-lg">Notification ${index + 1}</h3>
-        <button class="btn btn-red remove-note" data-index="${index}" type="button">Remove</button>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
-        <div><label class="field-label">ID</label><input class="field-input note-id" value="${h(note.id)}"></div>
-        <div><label class="field-label">Type</label><input class="field-input note-type" value="${h(note.type)}"></div>
-        <div><label class="field-label">Label</label><input class="field-input note-label" value="${h(note.label)}"></div>
-        <div><label class="field-label">Icon</label><input class="field-input note-icon" value="${h(note.icon)}"></div>
-      </div>
-
-      <div class="mb-4">
-        <label class="field-label">Message</label>
-        <textarea class="field-input note-text">${h(note.text)}</textarea>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div>
-          <label class="field-label">Colour Class</label>
-          <select class="field-input note-colour">
-            ${["sticky-note-sky","sticky-note-peach","sticky-note-mint","sticky-note-yellow","sticky-note-lilac","sticky-note-cream"].map(c => `<option value="${c}" ${note.colourClass === c ? "selected" : ""}>${c}</option>`).join("")}
-          </select>
-        </div>
-        <div><label class="field-label">Default Width</label><input class="field-input note-width" type="number" value="${h(note.width)}"></div>
-        <div><label class="field-label">Default Height</label><input class="field-input note-height" type="number" value="${h(note.height)}"></div>
-        <div><label class="field-label">Default Font Size</label><input class="field-input note-font" type="number" value="${h(note.fontSize)}"></div>
-      </div>
-    `;
-
-    notesList.appendChild(noteCard);
-  });
-}
-
-function collectConfig() {
-  const notes = [...document.querySelectorAll(".note-editor")].map((card, index) => {
-    const get = selector => card.querySelector(selector).value.trim();
-    const num = (selector, fallback) => {
-      const parsed = Number(card.querySelector(selector).value);
-      return Number.isFinite(parsed) ? parsed : fallback;
-    };
-
-    return normalizeNote({
-      id: get(".note-id") || `note-${index + 1}`,
-      type: get(".note-type"),
-      label: get(".note-label"),
-      text: get(".note-text"),
-      icon: get(".note-icon"),
-      colourClass: get(".note-colour"),
-      width: num(".note-width", 420),
-      height: num(".note-height", 190),
-      fontSize: num(".note-font", 40)
-    }, index);
-  });
-
-  config = {
-    ...config,
-    subject: document.getElementById("subjectInput").value.trim() || "Exam",
-    title: document.getElementById("titleInput").value.trim() || "Exam Display",
-    examTimeText: document.getElementById("examTimeInput").value.trim() || "",
-    durationHours: numberValue("hoursInput", 1),
-    durationMinutes: numberValue("minutesInput", 0),
-    notes,
-    updatedAt: new Date().toISOString()
-  };
-
-  return config;
-}
-
-async function loadConfig() {
-  try {
-    setStatus("Loading live config...");
-    const response = await fetch(`${API_URL}?t=${Date.now()}`, { cache: "no-store" });
-    if (!response.ok) throw new Error(`Load failed: ${response.status}`);
-    const payload = await response.json();
-    config = normalizeConfig(payload.config);
-    renderConfig();
-    setStatus(`Loaded. Last update: ${config.updatedAt || "not saved yet"}`);
-  } catch (error) {
-    config = structuredClone(FALLBACK_CONFIG);
-    renderConfig();
-    setStatus(`Using fallback config. ${error.message}`);
-  }
-}
-
-async function saveConfig() {
-  const password = getPassword();
-  if (!password) {
-    setStatus("Enter the admin password first.");
-    return;
-  }
-
-  sessionStorage.setItem("classroomAidAdminPassword", password);
-  const nextConfig = collectConfig();
-
-  try {
-    setStatus("Saving...");
-    const response = await fetch(API_URL, {
-      method: "POST",
-      headers: { "content-type": "application/json", "x-admin-password": password },
-      body: JSON.stringify({ config: nextConfig })
-    });
-
-    const payload = await response.json().catch(() => ({}));
-    if (!response.ok) throw new Error(payload.error || `Save failed: ${response.status}`);
-
-    config = normalizeConfig(payload.config || nextConfig);
-    renderConfig();
-    setStatus(`Saved live at ${config.updatedAt}. Classroom screens should update on their next poll.`);
-  } catch (error) {
-    setStatus(`Save error: ${error.message}`);
-  }
-}
-
-function addNote() {
-  collectConfig();
-  config.notes.push(normalizeNote({
-    id: `note-${Date.now()}`,
-    type: "Notice",
-    label: `NOTE ${config.notes.length + 1}`,
-    text: "New notification message",
-    icon: "campaign",
-    colourClass: "sticky-note-sky",
-    width: 420,
-    height: 190,
-    fontSize: 40
-  }, config.notes.length));
-  renderNotes();
-}
-
-document.getElementById("loadBtn").addEventListener("click", loadConfig);
-document.getElementById("saveBtn").addEventListener("click", saveConfig);
-document.getElementById("addNoteBtn").addEventListener("click", addNote);
-
-document.getElementById("notesList").addEventListener("click", (event) => {
-  const button = event.target.closest(".remove-note");
-  if (!button) return;
-  collectConfig();
-  const index = Number(button.dataset.index);
-  config.notes.splice(index, 1);
-  renderNotes();
-});
-
-document.getElementById("passwordInput").value = sessionStorage.getItem("classroomAidAdminPassword") || "";
-loadConfig();
+function escapeHtml(value){return String(value??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
+function numberValue(id,fallback){const parsed=Number(document.getElementById(id).value);return Number.isFinite(parsed)?parsed:fallback}
+function getPassword(){return document.getElementById("passwordInput").value||sessionStorage.getItem("classroomAidAdminPassword")||""}
+function setStatus(message){document.getElementById("statusLine").textContent=message}
+function normalizeNote(note,index){return{id:String(note.id||`note-${Date.now()}-${index}`),label:String(note.label||`NOTE ${index+1}`),type:String(note.type||"Notice"),text:String(note.text||""),icon:String(note.icon||"campaign"),colourClass:String(note.colourClass||"sticky-note-sky"),width:Number(note.width||420),height:Number(note.height||190),fontSize:Number(note.fontSize||40)}}
+function normalizeConfig(raw){const merged={...FALLBACK_CONFIG,...(raw||{})};merged.notes=Array.isArray(merged.notes)?merged.notes.map(normalizeNote):[];return merged}
+function renderConfig(){document.getElementById("subjectInput").value=config.subject||"";document.getElementById("titleInput").value=config.title||"";document.getElementById("examTimeInput").value=config.examTimeText||"";document.getElementById("hoursInput").value=config.durationHours??1;document.getElementById("minutesInput").value=config.durationMinutes??0;renderNotes()}
+function renderNotes(){const notesList=document.getElementById("notesList");notesList.innerHTML="";config.notes.forEach((note,index)=>{const noteCard=document.createElement("article");noteCard.className="note-editor p-4";noteCard.dataset.index=index;noteCard.innerHTML=`
+  <div class="flex justify-between gap-4 mb-4"><h3 class="font-black uppercase text-lg">Notification ${index+1}</h3><button class="btn btn-red remove-note" data-index="${index}" type="button">Remove</button></div>
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+    <div><label class="field-label">ID</label><input class="field-input note-id" value="${escapeHtml(note.id)}"></div>
+    <div><label class="field-label">Type</label><input class="field-input note-type" value="${escapeHtml(note.type)}"></div>
+    <div><label class="field-label">Label</label><input class="field-input note-label" value="${escapeHtml(note.label)}"></div>
+    <div><label class="field-label">Icon</label><input class="field-input note-icon" value="${escapeHtml(note.icon)}"></div>
+  </div>
+  <div class="mb-4"><label class="field-label">Message</label><textarea class="field-input note-text">${escapeHtml(note.text)}</textarea></div>
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+    <div><label class="field-label">Colour Class</label><select class="field-input note-colour">${["sticky-note-sky","sticky-note-peach","sticky-note-mint","sticky-note-yellow","sticky-note-lilac","sticky-note-cream"].map(c=>`<option value="${c}" ${note.colourClass===c?"selected":""}>${c}</option>`).join("")}</select></div>
+    <div><label class="field-label">Default Width</label><input class="field-input note-width" type="number" value="${escapeHtml(note.width)}"></div>
+    <div><label class="field-label">Default Height</label><input class="field-input note-height" type="number" value="${escapeHtml(note.height)}"></div>
+    <div><label class="field-label">Default Font Size</label><input class="field-input note-font" type="number" value="${escapeHtml(note.fontSize)}"></div>
+  </div>`;notesList.appendChild(noteCard)})}
+function collectConfig(){const notes=[...document.querySelectorAll(".note-editor")].map((card,index)=>{const get=selector=>card.querySelector(selector).value.trim();const num=(selector,fallback)=>{const parsed=Number(card.querySelector(selector).value);return Number.isFinite(parsed)?parsed:fallback};return normalizeNote({id:get(".note-id")||`note-${index+1}`,type:get(".note-type"),label:get(".note-label"),text:get(".note-text"),icon:get(".note-icon"),colourClass:get(".note-colour"),width:num(".note-width",420),height:num(".note-height",190),fontSize:num(".note-font",40)},index)});config={...config,subject:document.getElementById("subjectInput").value.trim()||"Exam",title:document.getElementById("titleInput").value.trim()||"Exam Display",examTimeText:document.getElementById("examTimeInput").value.trim()||"",durationHours:numberValue("hoursInput",1),durationMinutes:numberValue("minutesInput",0),notes,updatedAt:new Date().toISOString()};return config}
+async function loadConfig(){try{setStatus("Loading live config...");const response=await fetch(`${API_URL}?t=${Date.now()}`,{cache:"no-store"});if(!response.ok)throw new Error(`Load failed: ${response.status}`);const payload=await response.json();config=normalizeConfig(payload.config);renderConfig();setStatus(`Loaded. Last update: ${config.updatedAt||"not saved yet"}`)}catch(error){config=structuredClone(FALLBACK_CONFIG);renderConfig();setStatus(`Using fallback config. ${error.message}`)}}
+async function saveConfig(){const password=getPassword();if(!password){setStatus("Enter the admin password first.");return}sessionStorage.setItem("classroomAidAdminPassword",password);const nextConfig=collectConfig();try{setStatus("Saving...");const response=await fetch(API_URL,{method:"POST",headers:{"content-type":"application/json","x-admin-password":password},body:JSON.stringify({config:nextConfig})});const payload=await response.json().catch(()=>({}));if(!response.ok)throw new Error(payload.error||`Save failed: ${response.status}`);config=normalizeConfig(payload.config||nextConfig);renderConfig();setStatus(`Saved live at ${config.updatedAt}. Classroom screens update within a few seconds.`)}catch(error){setStatus(`Save error: ${error.message}`)}}
+function addNote(){collectConfig();config.notes.push(normalizeNote({id:`note-${Date.now()}`,type:"Notice",label:`NOTE ${config.notes.length+1}`,text:"New notification message",icon:"campaign",colourClass:"sticky-note-sky",width:420,height:190,fontSize:40},config.notes.length));renderNotes()}
+document.getElementById("loadBtn").addEventListener("click",loadConfig);document.getElementById("saveBtn").addEventListener("click",saveConfig);document.getElementById("addNoteBtn").addEventListener("click",addNote);document.getElementById("notesList").addEventListener("click",event=>{const button=event.target.closest(".remove-note");if(!button)return;collectConfig();const index=Number(button.dataset.index);config.notes.splice(index,1);renderNotes()});document.getElementById("passwordInput").value=sessionStorage.getItem("classroomAidAdminPassword")||"";loadConfig();
 </script>
 </body>
 </html>
