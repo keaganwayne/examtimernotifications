@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Pre-Algebra Mid-Term Display</title>
+
+<!--
+LIVE UPDATE METHOD FOR STATIC HOSTING
+1. Edit the EXAM_CONFIG block below.
+2. Upload / redeploy this same HTML file.
+3. Open this page on each classroom TV once.
+4. The page auto-refreshes every 60 seconds, so correction text updates on every TV.
+
+IMPORTANT
+- The teacher starts the timer manually. It does NOT wait until 8:00 AM.
+- The timer state survives the 60-second auto-refresh.
+- Sticky note size and font size survive refresh using localStorage.
+- If you want to force all sticky notes back to default sizes, change notesStorageKey below.
+-->
+
+<script id="exam-config">
+const EXAM_CONFIG = {
+  subject: "Pre-Algebra",
+  title: "2nd Semester Mid-Terms",
+  examTimeText: "8:00 → 9:00",
+  durationHours: 1,
+  durationMinutes: 0,
+
+  // The page refreshes to pick up live HTML edits.
+  // The running timer and sticky note layout are saved locally, so they do not reset on refresh.
+  autoRefreshSeconds: 60,
+
+  // Change these keys if you want to force reset saved timer/layout data on all screens.
+  timerStorageKey: "pre-algebra-midterm-timer-v3",
+  notesStorageKey: "pre-algebra-midterm-sticky-layout-v3",
+
+  // Sticky note auto-layout.
+  stickyGap: 24,
+  noteMinWidth: 260,
+  noteMaxWidth: 560,
+  noteMinHeight: 140,
+  noteMaxHeight: 420,
+
+  notes: [
+    {
+      id: "q22-slope",
+      label: "QUESTION 22",
+      type: "Correction",
+      text: "Q22 → slope is 2",
+      icon: "trending_up",
+      colourClass: "sticky-note-sky",
+      width: 420,
+      height: 190,
+      fontSize: 46
+    },
+    {
+      id: "q36-number-change",
+      label: "QUESTION 36",
+      type: "Correction",
+      text: "Q36 → 22 changes to 60",
+      icon: "edit_note",
+      colourClass: "sticky-note-peach",
+      width: 420,
+      height: 190,
+      fontSize: 40
+    },
+    {
+      id: "q36-choice-format",
+      label: "QUESTION 36",
+      type: "Format",
+      text: "Q36 is multiple choice A, B, C, D — not E, F, G, H",
+      icon: "format_list_bulleted",
+      colourClass: "sticky-note-mint",
+      width: 420,
+      height: 210,
+      fontSize: 34
+    }
+  ]
+};
+</script>
+
+<script id="tailwind-config">
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      "colors": {
+        "surface": "#fcf9f8",
+        "surface-dim": "#dcd9d9",
+        "on-surface": "#1c1b1b"
+      },
+      "spacing": {
+        "xl": "48px",
+        "md": "16px",
+        "xs": "4px",
+        "unit": "4px",
+        "sm": "8px",
+        "lg": "24px"
+      },
+      "fontFamily": {
+        "display-digit": ["monospace"],
+        "headline-md": ["Space Grotesk"],
+        "headline-lg": ["Space Grotesk"],
+        "label-bold": ["Lexend"],
+        "caption": ["monospace"],
+        "body-lg": ["Lexend"],
+        "body-md": ["Lexend"]
+      }
+    }
+  }
+}
+</script>
+
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700;900&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet"/>
+
+<style>
+  :root {
+    --page-bg: #d9d7d7;
+    --ink: #101010;
+    --sticky-yellow: #eceb91;
+    --sticky-sky: #a9d5ff;
+    --sticky-peach: #ffd2c7;
+    --sticky-mint: #bcefd8;
+    --sticky-lilac: #d9cbff;
+    --sticky-cream: #fff6cf;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html,
+  body {
+    min-height: 100%;
+  }
+
+  body {
+    background: var(--page-bg);
+    color: var(--ink);
+    font-family: Lexend, system-ui, sans-serif;
+  }
+
+  .border-heavy {
+    border: 2px solid #000000;
+  }
+
+  .border-dashed-heavy {
+    border-bottom: 3px dashed #000000;
+  }
+
+  .note-shadow {
+    box-shadow: 5px 5px 0px 0px #000000;
+  }
+
+  .btn-press:active {
+    transform: translate(2px, 2px);
+    box-shadow: 0px 0px 0px 0px #000000;
+  }
+
+  .sticky-note-sky { background: var(--sticky-sky); }
+  .sticky-note-peach { background: var(--sticky-peach); }
+  .sticky-note-mint { background: var(--sticky-mint); }
+  .sticky-note-yellow { background: var(--sticky-yellow); }
+  .sticky-note-lilac { background: var(--sticky-lilac); }
+  .sticky-note-cream { background: var(--sticky-cream); }
+
+  .topbar {
+    height: 54px;
+  }
+
+  .topbar-title {
+    font-family: Lexend, sans-serif;
+    font-weight: 900;
+    letter-spacing: -0.08em;
+  }
+
+  .topbar-nav {
+    gap: 34px;
+  }
+
+  .timer-card {
+    background: var(--sticky-yellow);
+    min-height: calc(100vh - 140px);
+  }
+
+  .timer-digits {
+    font-family: monospace;
+    font-size: clamp(78px, 10vw, 156px);
+    line-height: 0.9;
+    letter-spacing: -0.09em;
+    font-weight: 900;
+    white-space: nowrap;
+  }
+
+  .exam-title {
+    font-family: "Space Grotesk", Lexend, sans-serif;
+    font-size: clamp(30px, 2.6vw, 52px);
+    line-height: 1.08;
+    letter-spacing: -0.05em;
+    font-weight: 900;
+    text-transform: uppercase;
+  }
+
+  .exam-meta {
+    font-family: "Space Grotesk", Lexend, sans-serif;
+    font-size: clamp(22px, 1.55vw, 30px);
+    line-height: 1.2;
+    font-weight: 900;
+  }
+
+  .timer-button {
+    border: 2px solid #000;
+    background: #fff;
+    box-shadow: 4px 4px 0 #000;
+    font-family: Lexend, sans-serif;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 12px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .timer-button.start {
+    background: #bcefd8;
+  }
+
+  .timer-button.stop {
+    background: #ffd2c7;
+  }
+
+  .timer-button.reset {
+    background: #a9d5ff;
+  }
+
+  .notes-board {
+    position: relative;
+    min-height: calc(100vh - 140px);
+    width: 100%;
+  }
+
+  .sticky-note {
+    position: absolute;
+    border: 2px solid #000;
+    box-shadow: 5px 5px 0 #000;
+    overflow: hidden;
+    padding: 26px 28px 24px 28px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 14px;
+    touch-action: none;
+    transition: left 130ms ease, top 130ms ease;
+  }
+
+  .sticky-note.is-resizing {
+    transition: none;
+    z-index: 10;
+  }
+
+  .sticky-note::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 34px;
+    height: 34px;
+    background: rgba(255,255,255,0.42);
+    clip-path: polygon(100% 0, 0 0, 100% 100%);
+    border-left: 2px solid rgba(0,0,0,0.12);
+    border-bottom: 2px solid rgba(0,0,0,0.12);
+    pointer-events: none;
+  }
+
+  .note-type {
+    display: inline-block;
+    background: #fff;
+    border: 2px solid #000;
+    padding: 7px 11px;
+    font-family: monospace;
+    font-size: clamp(13px, 0.9vw, 17px);
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    margin-bottom: 16px;
+  }
+
+  .note-heading {
+    font-size: clamp(14px, 1vw, 19px);
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 18px;
+  }
+
+  .note-message {
+    font-family: "Space Grotesk", Lexend, sans-serif;
+    font-weight: 900;
+    line-height: 1.12;
+    letter-spacing: -0.025em;
+    overflow-wrap: anywhere;
+    word-break: normal;
+  }
+
+  .note-icon {
+    text-align: right;
+    line-height: 1;
+    opacity: 0.95;
+  }
+
+  .note-icon .material-symbols-outlined {
+    font-size: clamp(30px, 2.4vw, 52px);
+  }
+
+  .note-font-controls {
+    position: absolute;
+    top: 10px;
+    right: 48px;
+    z-index: 3;
+    display: flex;
+    gap: 5px;
+  }
+
+  .font-control-btn {
+    width: 32px;
+    height: 28px;
+    border: 2px solid #000;
+    background: #fff;
+    font-family: Lexend, sans-serif;
+    font-weight: 900;
+    font-size: 12px;
+    line-height: 1;
+    box-shadow: 2px 2px 0 #000;
+    cursor: pointer;
+  }
+
+  .font-control-btn:active {
+    transform: translate(1px, 1px);
+    box-shadow: 0 0 0 #000;
+  }
+
+  .resize-handle {
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    right: 0;
+    bottom: 0;
+    cursor: nwse-resize;
+    z-index: 4;
+    background:
+      linear-gradient(135deg, transparent 0 42%, rgba(0,0,0,0.9) 43% 50%, transparent 51%),
+      linear-gradient(135deg, transparent 0 62%, rgba(0,0,0,0.9) 63% 70%, transparent 71%);
+  }
+
+  .teacher-panel {
+    display: none;
+  }
+
+  .teacher-panel.open {
+    display: block;
+  }
+
+  .field-label {
+    display: block;
+    font-size: 11px;
+    font-weight: 900;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+    letter-spacing: 0.06em;
+  }
+
+  .field-input {
+    width: 100%;
+    border: 2px solid #000;
+    background: #fff;
+    padding: 8px 9px;
+    font-weight: 800;
+  }
+
+  @media (max-width: 900px) {
+    .timer-card,
+    .notes-board {
+      min-height: 560px;
+    }
+
+    .sticky-note {
+      position: absolute;
+    }
+
+    .timer-digits {
+      font-size: clamp(58px, 16vw, 100px);
+    }
+  }
+</style>
+</head>
+
+<body class="min-h-screen text-on-surface font-body-md">
+<header class="topbar bg-zinc-100 text-black font-bold uppercase tracking-wider text-sm border-b-2 border-black flex justify-between items-center w-full px-5 md:px-8">
+  <div class="topbar-title text-2xl text-black uppercase">CLASSROOM_AID</div>
+  <nav class="topbar-nav hidden md:flex items-center">
+    <a class="text-black underline decoration-4 underline-offset-8 hover:text-black" href="#">Timer</a>
+    <a class="text-zinc-500 hover:text-black" href="#">Notifications</a>
+    <a class="text-zinc-500 hover:text-black" href="#">Resources</a>
+  </nav>
+  <div class="flex gap-3 items-center">
+    <button id="settingsBtn" class="hover:text-black" title="Teacher setup">
+      <span class="material-symbols-outlined">settings</span>
+    </button>
+    <button id="fullscreenBtn" class="hover:text-black" title="Fullscreen">
+      <span class="material-symbols-outlined">fullscreen</span>
+    </button>
+  </div>
+</header>
+
+<section id="teacherPanel" class="teacher-panel bg-zinc-100 border-b-2 border-black px-5 md:px-8 py-4">
+  <div class="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-7 gap-3 items-end">
+    <div>
+      <label class="field-label">Subject</label>
+      <input id="subjectInput" class="field-input" type="text"/>
+    </div>
+    <div>
+      <label class="field-label">Exam Title</label>
+      <input id="titleInput" class="field-input" type="text"/>
+    </div>
+    <div>
+      <label class="field-label">Exam Time Text</label>
+      <input id="examTimeInput" class="field-input" type="text"/>
+    </div>
+    <div>
+      <label class="field-label">Hours</label>
+      <input id="hoursInput" class="field-input" type="number" min="0" max="12"/>
+    </div>
+    <div>
+      <label class="field-label">Minutes</label>
+      <input id="minutesInput" class="field-input" type="number" min="0" max="59"/>
+    </div>
+    <button id="applySettingsBtn" class="timer-button start btn-press">
+      Apply
+    </button>
+    <button id="resetLayoutBtn" class="timer-button reset btn-press">
+      Reset Notes
+    </button>
+  </div>
+  <p class="max-w-[1400px] mx-auto mt-3 text-xs font-mono">
+    Drag a sticky note's bottom-right corner to resize it. Use A− / A+ on each note to change that note's font size. Layout and timer state survive refresh.
+  </p>
+</section>
+
+<main class="container mx-auto px-5 md:px-8 py-8">
+  <div class="grid grid-cols-1 md:grid-cols-12 gap-7 max-w-[1400px] mx-auto items-start">
+    <section class="md:col-span-8 timer-card border-heavy note-shadow p-8 md:p-9 relative overflow-hidden flex flex-col justify-center">
+      <div class="absolute top-5 right-5 border-heavy bg-white px-2 py-1">
+        <span class="material-symbols-outlined text-on-surface">push_pin</span>
+      </div>
+
+      <div class="mb-5">
+        <div id="statusText" class="inline-block bg-white border-heavy px-3 py-2 font-mono uppercase mb-5 font-bold text-[clamp(14px,1vw,18px)]">
+          Ready
+        </div>
+        <h1 id="titleText" class="exam-title">2nd Semester Mid-Terms</h1>
+      </div>
+
+      <div class="text-center my-8 md:my-10">
+        <div id="timerDisplay" class="timer-digits text-on-surface">01:00:00</div>
+      </div>
+
+      <div class="grid grid-cols-3 gap-4 mb-8">
+        <button id="startBtn" class="timer-button start btn-press">
+          <span class="material-symbols-outlined">play_arrow</span>
+          Start
+        </button>
+        <button id="stopBtn" class="timer-button stop btn-press">
+          <span class="material-symbols-outlined">stop</span>
+          Stop
+        </button>
+        <button id="resetBtn" class="timer-button reset btn-press">
+          <span class="material-symbols-outlined">restart_alt</span>
+          Reset
+        </button>
+      </div>
+
+      <div class="border-dashed-heavy my-3"></div>
+
+      <div class="grid grid-cols-2 gap-8 items-start mt-6">
+        <div class="pr-4">
+          <div class="font-bold text-black uppercase tracking-wider mb-3 text-[clamp(16px,1vw,20px)]">Subject</div>
+          <div id="subjectText" class="exam-meta">Pre-Algebra</div>
+        </div>
+        <div class="text-right pl-4">
+          <div class="font-bold text-black uppercase tracking-wider mb-3 text-[clamp(16px,1vw,20px)]">Exam Time</div>
+          <div id="timeText" class="exam-meta">8:00 → 9:00</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="md:col-span-4">
+      <div id="notesBoard" class="notes-board"></div>
+    </section>
+  </div>
+</main>
+
+<script>
+(function () {
+  let config = structuredClone(EXAM_CONFIG);
+  const params = new URLSearchParams(window.location.search);
+  const timerKey = config.timerStorageKey;
+  const notesKey = config.notesStorageKey;
+
+  let noteState = {};
+  let activeResize = null;
+
+  function asNumber(value, fallback) {
+    const parsed = Number(value);
+    return Number.isFinite(parsed) ? parsed : fallback;
+  }
+
+  function clamp(value, min, max) {
+    return Math.max(min, Math.min(max, value));
+  }
+
+  function pad(value) {
+    return String(value).padStart(2, "0");
+  }
+
+  function durationMs() {
+    return ((config.durationHours * 60) + config.durationMinutes) * 60 * 1000;
+  }
+
+  function formatDurationLabel() {
+    const totalMinutes = (config.durationHours * 60) + config.durationMinutes;
+    if (totalMinutes < 60) return `${totalMinutes} min`;
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = totalMinutes % 60;
+    return minutes ? `${hours} hr ${minutes} min` : `${hours} hr`;
+  }
+
+  function loadJson(key, fallback) {
+    try {
+      return JSON.parse(localStorage.getItem(key)) || fallback;
+    } catch {
+      return fallback;
+    }
+  }
+
+  function saveJson(key, value) {
+    localStorage.setItem(key, JSON.stringify(value));
+  }
+
+  function applyUrlOverrides() {
+    if (params.has("subject")) config.subject = params.get("subject") || config.subject;
+    if (params.has("title")) config.title = params.get("title") || config.title;
+    if (params.has("time")) config.examTimeText = params.get("time") || config.examTimeText;
+    if (params.has("hours")) config.durationHours = asNumber(params.get("hours"), config.durationHours);
+    if (params.has("minutes")) config.durationMinutes = asNumber(params.get("minutes"), config.durationMinutes);
+  }
+
+  function getTimerState() {
+    const stored = loadJson(timerKey, null);
+    if (!stored || stored.durationMs !== durationMs()) {
+      return {
+        status: "ready",
+        durationMs: durationMs(),
+        remainingMs: durationMs(),
+        startedAt: null
+      };
+    }
+    return stored;
+  }
+
+  function setTimerState(state) {
+    saveJson(timerKey, state);
+  }
+
+  function getRemainingFromState(state) {
+    if (state.status === "running") {
+      return Math.max(0, state.remainingMs - (Date.now() - state.startedAt));
+    }
+    return Math.max(0, state.remainingMs);
+  }
+
+  function renderTimer() {
+    let state = getTimerState();
+    let remaining = getRemainingFromState(state);
+
+    if (state.status === "running" && remaining <= 0) {
+      state = {
+        status: "finished",
+        durationMs: durationMs(),
+        remainingMs: 0,
+        startedAt: null
+      };
+      setTimerState(state);
+      remaining = 0;
+    }
+
+    const totalSeconds = Math.max(0, Math.ceil(remaining / 1000));
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+
+    document.getElementById("timerDisplay").textContent = `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+
+    const statusText = document.getElementById("statusText");
+    if (state.status === "running") statusText.textContent = "Timer running";
+    else if (state.status === "paused") statusText.textContent = "Timer stopped";
+    else if (state.status === "finished") statusText.textContent = "Time is up";
+    else statusText.textContent = `Ready • ${formatDurationLabel()}`;
+  }
+
+  function startTimer() {
+    const state = getTimerState();
+    const remaining = getRemainingFromState(state);
+
+    setTimerState({
+      status: "running",
+      durationMs: durationMs(),
+      remainingMs: remaining > 0 ? remaining : durationMs(),
+      startedAt: Date.now()
+    });
+
+    renderTimer();
+  }
+
+  function stopTimer() {
+    const state = getTimerState();
+    const remaining = getRemainingFromState(state);
+
+    setTimerState({
+      status: remaining <= 0 ? "finished" : "paused",
+      durationMs: durationMs(),
+      remainingMs: remaining,
+      startedAt: null
+    });
+
+    renderTimer();
+  }
+
+  function resetTimer() {
+    setTimerState({
+      status: "ready",
+      durationMs: durationMs(),
+      remainingMs: durationMs(),
+      startedAt: null
+    });
+
+    renderTimer();
+  }
+
+  function loadNoteState() {
+    const saved = loadJson(notesKey, {});
+    noteState = {};
+
+    config.notes.forEach((note) => {
+      const savedNote = saved[note.id] || {};
+      noteState[note.id] = {
+        width: clamp(asNumber(savedNote.width, note.width), config.noteMinWidth, config.noteMaxWidth),
+        height: clamp(asNumber(savedNote.height, note.height), config.noteMinHeight, config.noteMaxHeight),
+        fontSize: clamp(asNumber(savedNote.fontSize, note.fontSize), 18, 80)
+      };
+    });
+  }
+
+  function saveNoteState() {
+    saveJson(notesKey, noteState);
+  }
+
+  function renderStaticText() {
+    document.getElementById("subjectText").textContent = config.subject;
+    document.getElementById("titleText").textContent = config.title;
+    document.getElementById("timeText").textContent = config.examTimeText;
+
+    document.getElementById("subjectInput").value = config.subject;
+    document.getElementById("titleInput").value = config.title;
+    document.getElementById("examTimeInput").value = config.examTimeText;
+    document.getElementById("hoursInput").value = config.durationHours;
+    document.getElementById("minutesInput").value = config.durationMinutes;
+  }
+
+  function renderNotes() {
+    const board = document.getElementById("notesBoard");
+    board.innerHTML = "";
+
+    config.notes.forEach((note) => {
+      const state = noteState[note.id];
+      const card = document.createElement("article");
+      card.className = `sticky-note ${note.colourClass}`;
+      card.dataset.noteId = note.id;
+      card.style.width = `${state.width}px`;
+      card.style.height = `${state.height}px`;
+
+      card.innerHTML = `
+        <div class="note-font-controls">
+          <button class="font-control-btn" data-action="font-down" data-note-id="${note.id}" title="Smaller text">A−</button>
+          <button class="font-control-btn" data-action="font-up" data-note-id="${note.id}" title="Larger text">A+</button>
+        </div>
+
+        <div>
+          <div class="note-type">${note.type}</div>
+          <div class="note-heading">${note.label}</div>
+          <p class="note-message" style="font-size:${state.fontSize}px;">${note.text}</p>
+        </div>
+
+        <div class="note-icon">
+          <span class="material-symbols-outlined">${note.icon}</span>
+        </div>
+
+        <div class="resize-handle" data-note-id="${note.id}" title="Drag to resize"></div>
+      `;
+
+      board.appendChild(card);
+    });
+
+    autoArrangeNotes();
+  }
+
+  function autoArrangeNotes() {
+    const board = document.getElementById("notesBoard");
+    const boardWidth = Math.max(280, board.clientWidth);
+    const gap = config.stickyGap;
+
+    let x = 0;
+    let y = 0;
+    let rowHeight = 0;
+
+    config.notes.forEach((note) => {
+      const card = board.querySelector(`[data-note-id="${note.id}"].sticky-note`);
+      if (!card) return;
+
+      const state = noteState[note.id];
+      const width = clamp(state.width, config.noteMinWidth, Math.min(config.noteMaxWidth, boardWidth));
+      const height = clamp(state.height, config.noteMinHeight, config.noteMaxHeight);
+
+      state.width = width;
+      state.height = height;
+
+      if (x > 0 && x + width > boardWidth) {
+        x = 0;
+        y += rowHeight + gap;
+        rowHeight = 0;
+      }
+
+      card.style.left = `${x}px`;
+      card.style.top = `${y}px`;
+      card.style.width = `${width}px`;
+      card.style.height = `${height}px`;
+
+      x += width + gap;
+      rowHeight = Math.max(rowHeight, height);
+    });
+
+    board.style.height = `${y + rowHeight + 8}px`;
+  }
+
+  function changeFont(noteId, delta) {
+    if (!noteState[noteId]) return;
+    noteState[noteId].fontSize = clamp(noteState[noteId].fontSize + delta, 18, 80);
+    saveNoteState();
+
+    const card = document.querySelector(`[data-note-id="${noteId}"].sticky-note`);
+    const message = card?.querySelector(".note-message");
+    if (message) message.style.fontSize = `${noteState[noteId].fontSize}px`;
+  }
+
+  function beginResize(event) {
+    const handle = event.target.closest(".resize-handle");
+    if (!handle) return;
+
+    event.preventDefault();
+
+    const noteId = handle.dataset.noteId;
+    const card = document.querySelector(`[data-note-id="${noteId}"].sticky-note`);
+    if (!card || !noteState[noteId]) return;
+
+    card.classList.add("is-resizing");
+
+    activeResize = {
+      noteId,
+      startX: event.clientX,
+      startY: event.clientY,
+      startWidth: noteState[noteId].width,
+      startHeight: noteState[noteId].height
+    };
+
+    window.addEventListener("pointermove", resizeMove);
+    window.addEventListener("pointerup", endResize, { once: true });
+  }
+
+  function resizeMove(event) {
+    if (!activeResize) return;
+
+    const board = document.getElementById("notesBoard");
+    const maxWidth = Math.min(config.noteMaxWidth, Math.max(config.noteMinWidth, board.clientWidth));
+
+    const newWidth = clamp(activeResize.startWidth + (event.clientX - activeResize.startX), config.noteMinWidth, maxWidth);
+    const newHeight = clamp(activeResize.startHeight + (event.clientY - activeResize.startY), config.noteMinHeight, config.noteMaxHeight);
+
+    noteState[activeResize.noteId].width = Math.round(newWidth);
+    noteState[activeResize.noteId].height = Math.round(newHeight);
+
+    autoArrangeNotes();
+  }
+
+  function endResize() {
+    if (!activeResize) return;
+
+    const card = document.querySelector(`[data-note-id="${activeResize.noteId}"].sticky-note`);
+    card?.classList.remove("is-resizing");
+
+    saveNoteState();
+    activeResize = null;
+
+    window.removeEventListener("pointermove", resizeMove);
+  }
+
+  function applyTeacherSettings() {
+    config.subject = document.getElementById("subjectInput").value.trim() || config.subject;
+    config.title = document.getElementById("titleInput").value.trim() || config.title;
+    config.examTimeText = document.getElementById("examTimeInput").value.trim() || config.examTimeText;
+    config.durationHours = asNumber(document.getElementById("hoursInput").value, config.durationHours);
+    config.durationMinutes = asNumber(document.getElementById("minutesInput").value, config.durationMinutes);
+
+    renderStaticText();
+    resetTimer();
+  }
+
+  function resetNoteLayout() {
+    localStorage.removeItem(notesKey);
+    loadNoteState();
+    renderNotes();
+  }
+
+  function setupButtons() {
+    const teacherPanel = document.getElementById("teacherPanel");
+
+    document.getElementById("settingsBtn").addEventListener("click", () => {
+      teacherPanel.classList.toggle("open");
+    });
+
+    document.getElementById("fullscreenBtn").addEventListener("click", () => {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen?.();
+      } else {
+        document.exitFullscreen?.();
+      }
+    });
+
+    document.getElementById("applySettingsBtn").addEventListener("click", applyTeacherSettings);
+    document.getElementById("resetLayoutBtn").addEventListener("click", resetNoteLayout);
+
+    document.getElementById("startBtn").addEventListener("click", startTimer);
+    document.getElementById("stopBtn").addEventListener("click", stopTimer);
+    document.getElementById("resetBtn").addEventListener("click", resetTimer);
+
+    document.getElementById("notesBoard").addEventListener("click", (event) => {
+      const button = event.target.closest(".font-control-btn");
+      if (!button) return;
+
+      const noteId = button.dataset.noteId;
+      if (button.dataset.action === "font-up") changeFont(noteId, 2);
+      if (button.dataset.action === "font-down") changeFont(noteId, -2);
+    });
+
+    document.getElementById("notesBoard").addEventListener("pointerdown", beginResize);
+
+    window.addEventListener("resize", autoArrangeNotes);
+
+    if (params.get("admin") === "1") {
+      teacherPanel.classList.add("open");
+    }
+  }
+
+  function setupAutoRefresh() {
+    const seconds = Math.max(0, Number(config.autoRefreshSeconds || 0));
+    const isAdmin = params.get("admin") === "1";
+    if (!seconds || isAdmin) return;
+
+    setInterval(() => {
+      window.location.reload();
+    }, seconds * 1000);
+  }
+
+  applyUrlOverrides();
+  loadNoteState();
+  renderStaticText();
+  renderNotes();
+  renderTimer();
+  setupButtons();
+  setupAutoRefresh();
+
+  setInterval(renderTimer, 250);
+})();
+</script>
+</body>
+</html>
