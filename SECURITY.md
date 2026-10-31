@@ -4,7 +4,7 @@ Reviewed on 2026-10-31. This repository is a public portfolio project, not an ap
 
 ## Current behavior
 
-Open index.html for the display and admin.html for the local editor. Settings are stored in this browser only. The retired Netlify endpoint returns HTTP 410 and does not read or write a data store.
+Open index.html for the display and admin.html for the local editor. Settings are stored in this browser only. The included Netlify handler returns HTTP 410 and does not read or write a data store.
 
 ## Before using real data
 
