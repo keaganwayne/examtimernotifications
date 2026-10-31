@@ -1,0 +1,11 @@
+
+# Private deployment material and local exports
+.env
+.env.*
+!.env.example
+*.sqlite
+*.sqlite3
+*.db
+*.pem
+*.key
+__pycache__/

@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html class="light" lang="en">
 <head>
+<meta http-equiv="Content-Security-Policy" content="connect-src 'none'; form-action 'none'; base-uri 'self'; object-src 'none'">
+<script src="demo-config.js"></script>
+<script src="demo-banner.js"></script>
+
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Classroom Aid Exam Display</title>
@@ -21,8 +25,8 @@ const DEFAULT_EXAM_CONFIG = {
   durationHours: 1,
   durationMinutes: 0,
   livePollSeconds: 5,
-  timerStorageKey: "classroom-aid-live-timer-v1",
-  notesStorageKey: "classroom-aid-live-sticky-layout-v1",
+  timerStorageKey: "portfolio-demo-classroom-timer-v1",
+  notesStorageKey: "portfolio-demo-classroom-sticky-layout-v1",
   stickyGap: 24,
   noteMinWidth: 260,
   noteMaxWidth: 560,
@@ -38,7 +42,8 @@ const DEFAULT_EXAM_CONFIG = {
 </script>
 
 <script id="tailwind-config">
-tailwind.config = {
+window.tailwind = window.tailwind || {};
+    window.tailwind.config = {
   darkMode: "class",
   theme: {
     extend: {
@@ -236,7 +241,7 @@ tailwind.config = {
 
   async function fetchRemoteConfig() {
     try {
-      const response = await fetch(`${API_URL}?t=${Date.now()}`, { cache: "no-store" });
+      const response = await demoConfigRequest(`${API_URL}?t=${Date.now()}`, { cache: "no-store" });
       if (!response.ok) throw new Error(`Config fetch failed: ${response.status}`);
       const payload = await response.json();
       if (!payload || !payload.config) throw new Error("Missing config payload");

@@ -46,7 +46,7 @@ function adoptLiveConfig(incoming) {
 
 async function fetchLiveConfig() {
   try {
-    const response = await fetch(`${LIVE_CONFIG_API}?t=${Date.now()}`, { cache: "no-store" });
+    const response = await demoConfigRequest(`${LIVE_CONFIG_API}?t=${Date.now()}`, { cache: "no-store" });
     if (!response.ok) return;
     const payload = await response.json();
     if (!payload?.config) return;
